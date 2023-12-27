@@ -55,6 +55,7 @@ float _calc(char* str, int end){
             num_len = num_len + 1;
         }
         else {
+            char current_char = str[i];
             if (str[i] != '(') {
                 current_num = str_to_f(num);
                 num_len = 0;
@@ -62,7 +63,7 @@ float _calc(char* str, int end){
             }
             else {
                 if (num_len > 0) {
-                    str[i-1] = '*';
+                    current_char = '*';
                     i = i - 1;
                     current_num = str_to_f(num);
                     num_len = 0;
@@ -94,7 +95,7 @@ float _calc(char* str, int end){
                 total_sum = total_sum + token_sum;
                 token_sum = 0.0f;
             }
-            last_operator = str[i];
+            last_operator = current_char;
         }
     }
     return total_sum;
