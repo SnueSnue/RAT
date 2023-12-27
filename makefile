@@ -2,7 +2,7 @@ all: rat
 
 rat: main.o math.o
 	@echo "Linking all files"
-	gcc main.c math.c -o rat
+	gcc main.o math.o -o rat
 
 main.o: main.c
 	@echo "Compiling main file"
