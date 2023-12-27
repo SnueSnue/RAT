@@ -19,7 +19,10 @@ float str_to_f(char* str){
     return (float)str_to_int(str);
 }
 
-float calc(char* str){
+float calc(char* input){
+    char* str = malloc(100*sizeof(char*));
+    strcpy(str, input);
+
     char plus = '+';
     strncat(str, &plus, 1);
 

@@ -12,7 +12,14 @@ int main(int argc, char* argv[])
     }
 
     if (argc == 1){
-        printf("rat\n");
+        char input[100];
+        fgets(input, 100, stdin);
+        for (int i = 0; input[i] != '\0'; i++){
+            if (input[i] == '\n'){
+                input[i] = '\0';
+            }
+        }
+        printf("%s = %.4g\n", input, calc(input));
         return 0;
     }
 
