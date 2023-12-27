@@ -1,5 +1,12 @@
 # RAT
 
-Rudimentary Arithmetic Tool designed for Kakuone.
+Rudimentary Arithmetic Tool designed for writing and solving math in Kakuone.
 
-Example: RAT 2+2 -> 2+2 = 4
+RAT is designed to be piped math expressions from and spit back the original expression
+followed by it's solution.
+
+Example:
+
+rat 7*42
+
+7*42 = 294
