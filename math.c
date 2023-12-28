@@ -21,21 +21,50 @@ float str_to_f(char* str){
     return (float)str_to_int(str);
 }
 
+
+int pow(int base, int exp) {
+    if (exp == 0)
+        return 1;
+    else if (exp % 2 == 1) 
+        return base * pow(base, exp - 1);
+    else {
+        int temp = pow(base, exp / 2);
+        return temp * temp;
+    }
+}
+
+float powf(float base, float exp) {
+    return (float)pow((int)base, (int)exp);
+}
+
+int is_operator_or_end(char *c) {
+    return (*c == '\0' || *c == '+' || *c == '-' || *c == '/' || *c == '*');
+}
+
+int find_num(char* str) {
+    int i = 0;
+    while (str[i] >= '0' && str[i] <= '9' && str[i] != '\n') {
+        i++;
+    }
+
+    return i;
+}
+
 int find_end(char* str){
     /* this function assumes str[0] is an opening parantheses
      * and finds the location of the matching closing parantheses. */
     int i = 0;
-    int p_count = 1;
-    while (p_count > 0) {
-        i++;
+    int p_count = 0;
+    while (p_count > 0 || i == 0) { 
         if (str[i] == '(') {
             p_count = p_count + 1;
         }
         else if (str[i] == ')') {
             p_count = p_count - 1;
         }
+        i++;
     }
-    return i;
+    return i-1;
 }
 
 void remove_spaces(char *str) {
@@ -81,7 +110,17 @@ float _calc(char* str, int end){
             }
             else if (str[i] == '*') {
                 if (str[i+1] == '*') {
-                    current_char = '^';
+                    int end = find_num(&str[i+2]);
+                    current_num = pow(str_to_f(num), _calc(&str[i+2], end));
+                    num_len = 0;
+                    num[0] = '\0';
+                    i = i + end + 2;
+                    current_char = str[i];
+                }
+                else {
+                    current_num = str_to_f(num);
+                    num_len = 0;
+                    num[0] = '\0';
                 }
             }
             else {
@@ -116,7 +155,11 @@ float _calc(char* str, int end){
 }
 
 float calc(char* str){
-    /* this function takes a string of math and returns the result */
+    /* this function takes a string of math and returns the result
+     * currently, it removes all the spaces from the string, but since
+     * the string is printed before this function is called in main.c
+     * it is currently not a problem. I might have to add a strcpy later
+     * if it becomes a problem.*/
     remove_spaces(str);
     return _calc(str, strlen(str));
 }
