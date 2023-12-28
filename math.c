@@ -38,13 +38,22 @@ int find_end(char* str){
     return i;
 }
 
+void remove_spaces(char *str) {
+    char* d = str;
+    do {
+        while (*d == ' ') {
+            ++d;
+        }
+    } while (*str++ = *d++);
+}
+
 float _calc(char* str, int end){
     /* this function takes a string of math and returns
      * the result of the math from str[0] to str[end] */
     char* num = malloc(100*sizeof(char*));
     int num_len = 0;
     float total_sum = 0.0f;
-    float token_sum = 0.0f;
+    float part_sum = 0.0f;
     char last_operator = '+';
     float current_num = 0.0f;
 
@@ -56,12 +65,7 @@ float _calc(char* str, int end){
         }
         else {
             char current_char = str[i];
-            if (str[i] != '(') {
-                current_num = str_to_f(num);
-                num_len = 0;
-                num[0] = '\0';
-            }
-            else {
+            if (str[i] == '(') {
                 if (num_len > 0) {
                     current_char = '*';
                     i = i - 1;
@@ -75,25 +79,35 @@ float _calc(char* str, int end){
                     i = i + end;
                 }
             }
+            else if (str[i] == '*') {
+                if (str[i+1] == '*') {
+                    current_char = '^';
+                }
+            }
+            else {
+                current_num = str_to_f(num);
+                num_len = 0;
+                num[0] = '\0';
+            }
             switch (last_operator)
             {
                 case '+':
-                    token_sum = token_sum + current_num;
+                    part_sum = part_sum + current_num;
                     break;
                 case '-':
-                    token_sum = token_sum - current_num;
+                    part_sum = part_sum - current_num;
                     break;
                 case '*':
-                    token_sum = token_sum * current_num;
+                    part_sum = part_sum * current_num;
                     break;
                 case '/':
-                    token_sum = token_sum / current_num;
+                    part_sum = part_sum / current_num;
                     break;
             }
             if (str[i] == '+' || str[i] == '-' || str[i] == '\0' || str[i] == ')')
             {
-                total_sum = total_sum + token_sum;
-                token_sum = 0.0f;
+                total_sum = total_sum + part_sum;
+                part_sum = 0.0f;
             }
             last_operator = current_char;
         }
@@ -103,6 +117,7 @@ float _calc(char* str, int end){
 
 float calc(char* str){
     /* this function takes a string of math and returns the result */
+    remove_spaces(str);
     return _calc(str, strlen(str));
 }
 

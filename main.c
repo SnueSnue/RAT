@@ -58,6 +58,6 @@ int main(int argc, char* argv[])
     
     if (arguments.discard == 0)
         printf("%s = ", input);
-    printf("%.4g\n", input, calc(input));
+    printf("%.4g\n", calc(input));
     return 0;
 }
