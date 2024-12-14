@@ -7,6 +7,7 @@ followed by it's solution to stdout.
 
 Example:
 
-rat 7*42
-
+```
+echo "7*42" | rat
 7*42 = 294
+```
